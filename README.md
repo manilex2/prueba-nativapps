@@ -38,13 +38,13 @@ cd prueba-tecnica-back
 ```
 docker pull postgres:latest
 ```
-5. Crear la imagen de nuestra API.
-```
-docker build -t manilex2/express-prueba-tecnica .
-```
-6. Ejecutamos nuestro contenedor de base de datos.
+5. Ejecutamos nuestro contenedor de base de datos.
 ```
 docker run --network patients-net --network-alias postgres --name postgres -e POSTGRES_PASSWORD=pacientes -v /postgres_data:/var/lib/postgresql/data --restart always -p 5432:5432 -d postgres
+```
+6. Crear la imagen de nuestra API.
+```
+docker build -t manilex2/express-prueba-tecnica .
 ```
 7. Ejecutamos nuestro contenedor de la API.
 ```
@@ -138,11 +138,29 @@ body:
 ## Diagrama de la aplicación
 
 ```mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
+---
+title: Diagrama de despliegue
+---
+classDiagram
+    DockerDesktop --> DockerNetwork
+    DockerDesktop: iniciar
+    DockerNetwork: Se crea la conexión
+    note for DockerNetwork "Se creará la conexión \nsi no se usa docker-compose"
+    DockerNetwork --> ImgPostgreSQL
+    ImgPostgreSQL: Se crea y ejecuta la imagen de la base de datos
+    note for ImgPostgreSQL "Se crea la base de datos PostgreSQL \nen el contenedor exponiendo el puerto 5432"
+    DockerNetwork --> ImgNode
+    ImgNode: Se crea y ejecuta la imagen de nuestra API
+    note for ImgNode "Se crea nuestra imagen de Express.js \nen el contenedor exponiendo el puerto 4200"
+    DockerNetwork --> ImgReact
+    ImgReact: Se crea y ejecuta la imagen de nuestro frontend
+    note for ImgReact "Se crea nuestra imagen de React.js \nen el contenedor exponiendo el puerto 80"
+    ImgPostgreSQL --> DockerContainer
+    ImgNode --> DockerContainer
+    ImgReact --> DockerContainer
+    DockerContainer: Se ejecutan todos los contenedores de las imágenes configuradas y montadas
+    DockerContainer --> Ejecucion
+    Ejecucion: Podemos ya ejecutar nuestra aplicación
 ```
 
 [1]: http://localhost:3000/
