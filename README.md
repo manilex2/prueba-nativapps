@@ -135,7 +135,7 @@ body:
 }
 ```
 
-## Diagrama de la aplicación
+## Diagrama de despliegue
 
 ```mermaid
 ---
