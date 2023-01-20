@@ -145,7 +145,7 @@ classDiagram
     DockerDesktop --> DockerNetwork
     DockerDesktop: iniciar
     DockerNetwork: Se crea la conexión
-    note for DockerNetwork "Se creará la conexión \nsi no se usa docker-compose"
+    note for DockerNetwork "Se creará la conexión"
     DockerNetwork --> ImgPostgreSQL
     ImgPostgreSQL: Se crea y ejecuta la imagen de la base de datos
     note for ImgPostgreSQL "Se crea la base de datos PostgreSQL \nen el contenedor exponiendo el puerto 5432"
