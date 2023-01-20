@@ -135,4 +135,14 @@ body:
 }
 ```
 
+## Diagrama de la aplicación
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+
 [1]: http://localhost:3000/
