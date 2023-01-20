@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  postgres:
+    image: 'postgres:latest'
+    restart: always
+    volumes:
+      - './postgres_data:/var/lib/postgresql/data'
+    environment:
+      - POSTGRES_PASSWORD=pacientes
+    ports:
+      - '5432:5432'
+  backend:
+    image: 'manilex2/express-prueba-tecnica:${TAG:-latest}'
+    restart: always
+    build: prueba-tecnica-back
+    environment:
+      - DB_HOST=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=pacientes
+      - DB_PORT=5432
+      - DB_DATABASE=postgres
+    ports:
+      - '4200:4200'
+    depends_on:
+      - postgres
+  frontend:
+    image: 'manilex2/react-prueba-tecnica:${TAG:-latest}'
+    restart: always
+    build: prueba-tecnica-front
+    ports:
+      - '3000:80'
+    depends_on:
+      - backend
